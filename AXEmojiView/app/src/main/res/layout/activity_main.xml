@@ -30,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:checked="true"
+        android:checked="false"
         android:text="StickerView" />
 
     <Switch
@@ -46,7 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:checked="true"
+        android:checked="false"
         android:text="Footer View" />
 
     <Switch
