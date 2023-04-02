@@ -52,13 +52,13 @@ public final class AXGoogleEmojiProvider extends AXPresetEmojiProvider {
     }
 
     @Override
-    protected EmojiCategory createCategory(int i, int icon) {
-        return new AXGoogleEmojiCategory(i, icon, getEmojiData());
+    protected EmojiCategory createCategory(Context context, int i, int icon) {
+        return new AXGoogleEmojiCategory(context, i, icon, getEmojiData());
     }
 
     public static class AXGoogleEmojiCategory extends AXPresetEmojiCategory {
-        public AXGoogleEmojiCategory(int i, int icon, EmojiData emojiData) {
-            super(i, icon, emojiData);
+        public AXGoogleEmojiCategory(Context context, int i, int icon, EmojiData emojiData) {
+            super(context, i, icon, emojiData);
         }
 
         @Override
