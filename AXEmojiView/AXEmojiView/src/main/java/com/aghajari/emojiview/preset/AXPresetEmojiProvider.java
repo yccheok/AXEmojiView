@@ -30,14 +30,18 @@ public abstract class AXPresetEmojiProvider extends AXPresetEmojiReplacer implem
 
     public static EmojiCategory[] emojiCategories = null;
 
+    private final Context context;
+
     public AXPresetEmojiProvider(Context context, int[] icons) {
+        this.context = context;
+
         AXPresetEmojiLoader.init(context, getEmojiData());
 
         if (emojiCategories == null) {
             int len = getEmojiData().getCategoriesLength();
             emojiCategories = new EmojiCategory[len];
             for (int c = 0; c < len; c++) {
-                emojiCategories[c] = createCategory(c, icons[c]);
+                emojiCategories[c] = createCategory(context, c, icons[c]);
             }
         }
     }
@@ -53,8 +57,8 @@ public abstract class AXPresetEmojiProvider extends AXPresetEmojiReplacer implem
 
     }
 
-    protected EmojiCategory createCategory(int i, int icon) {
-        return new AXPresetEmojiCategory(i, icon, getEmojiData());
+    protected EmojiCategory createCategory(Context context, int i, int icon) {
+        return new AXPresetEmojiCategory(context, i, icon, getEmojiData());
     }
 
 }
