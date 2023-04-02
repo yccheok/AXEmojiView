@@ -35,14 +35,14 @@ public class AXPresetEmoji extends Emoji {
 
         boolean isVariants = emojiData.isColoredEmoji(code);
         if (isVariants) {
-            AXPresetEmojiLoader.globalQueue.postRunnable(() -> {
+            //AXPresetEmojiLoader.globalQueue.postRunnable(() -> {
                 String[] vars = emojiData.getEmojiVariants(code);
                 AXPresetEmoji[] variants = new AXPresetEmoji[vars.length];
                 for (int i = 0; i < vars.length; i++) {
                     variants[i] = new AXPresetEmoji(vars[i], -1, 0);
                 }
                 setVariants(variants);
-            });
+            //});
         }
     }
 
