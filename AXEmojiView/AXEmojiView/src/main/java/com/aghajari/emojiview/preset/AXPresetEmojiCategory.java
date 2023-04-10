@@ -33,6 +33,7 @@ public class AXPresetEmojiCategory implements EmojiCategory {
         put("☹", "☹️");
         put("✌", "✌️");
         put("☝", "☝️");
+        put("✍", "✍️");
     }};
 
     Set<String> ignoredEmojis = new HashSet<>(
