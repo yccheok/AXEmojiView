@@ -14,7 +14,7 @@ public abstract class EmojiRoomDatabase extends RoomDatabase  {
 
     private volatile static EmojiRoomDatabase INSTANCE;
 
-    private static final String NAME = "emoji";
+    private static final String NAME = "emoji-export";
 
     public static EmojiRoomDatabase instance(Context context) {
         if (INSTANCE == null) {
