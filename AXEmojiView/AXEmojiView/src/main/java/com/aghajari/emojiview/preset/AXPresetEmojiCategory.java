@@ -12,7 +12,12 @@ import com.aghajari.emojiview.repository.EmojiDao;
 import com.aghajari.emojiview.repository.EmojiRoomDatabase;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class AXPresetEmojiCategory implements EmojiCategory {
     private final Context context;
@@ -20,6 +25,24 @@ public class AXPresetEmojiCategory implements EmojiCategory {
     public Emoji[] emojiData;
     public String title;
     int icon;
+
+    // https://unicode.org/Public/emoji/15.0/emoji-test.txt
+    // https://apps.timwhitlock.info/unicode/inspect
+    Map<String, String> toFullyQualified = new HashMap<String, String>() {{
+        put("☺", "☺️");
+        put("☹", "☹️");
+        put("✌", "✌️");
+        put("☝", "☝️");
+    }};
+
+    Set<String> ignoredEmojis = new HashSet<>(
+        Arrays.asList(
+            "\uD83E\uDDB0",
+            "\uD83E\uDDB1",
+            "\uD83E\uDDB3",
+            "\uD83E\uDDB2"
+        )
+    );
 
     public AXPresetEmojiCategory(Context context, int i, int icon, EmojiData emojiData) {
         this.context = context;
@@ -46,8 +69,19 @@ public class AXPresetEmojiCategory implements EmojiCategory {
         List<com.aghajari.emojiview.model.Emoji> emojis = new ArrayList<>();
 
         for (Emoji emoji : this.emojiData) {
+            if (ignoredEmojis.contains(emoji.getUnicode())) {
+                continue;
+            }
+
+            final String fullyQualifiedUnicode;
+            if (toFullyQualified.containsKey(emoji.getUnicode())) {
+                fullyQualifiedUnicode = toFullyQualified.get(emoji.getUnicode());
+            } else {
+                fullyQualifiedUnicode = emoji.getUnicode();
+            }
+
             com.aghajari.emojiview.model.Emoji emojiModel = new com.aghajari.emojiview.model.Emoji();
-            emojiModel.unicode = emoji.getUnicode();
+            emojiModel.unicode = fullyQualifiedUnicode;
             emojiModel.category = category;
 
             List<Emoji> variants = emoji.getVariants();
@@ -56,7 +90,7 @@ public class AXPresetEmojiCategory implements EmojiCategory {
                 emojiModel.selected = true;
                 emojis.add(emojiModel);
             } else {
-                emojiModel.group = emoji.getUnicode();
+                emojiModel.group = fullyQualifiedUnicode;
                 emojiModel.selected = true;
                 emojis.add(emojiModel);
 
@@ -64,7 +98,7 @@ public class AXPresetEmojiCategory implements EmojiCategory {
                     emojiModel = new com.aghajari.emojiview.model.Emoji();
                     emojiModel.unicode = v.getUnicode();
                     emojiModel.category = category;
-                    emojiModel.group = emoji.getUnicode();
+                    emojiModel.group = fullyQualifiedUnicode;
                     emojiModel.selected = false;
                     emojis.add(emojiModel);
                 }
